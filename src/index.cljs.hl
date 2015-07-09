@@ -213,7 +213,7 @@
                  :value "7 8 9"
                  :class "form-control input-lg")
                 (button :on-click evaluate "Evaluate"))))
-        (div :class "col-md-3"
+        (div :class "col-md-6"
             (h2 "As first player")
             (p (text "win: ~{(get-in stat [:as-first :win])}"))
             (p (text "lose: ~{(get-in stat [:as-first :lose])}"))
