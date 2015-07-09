@@ -188,9 +188,9 @@
   (head
     (link :href "css/bootstrap.css" :rel "stylesheet"))
   (body
-    (h1 "Tic-tac-toe Evaluator")
     (div :class "container"
       (div :class "row"
+        (h1 "Tic-tac-toe Evaluator")
         (div :class "col-md-3" 
             (form
               (div :class "form-group" 
