@@ -173,31 +173,55 @@
        :lose lose-second
        :draw draw-second}}))
 
-(defc prog [[1 2 3][4 5 6][7 8 9]])
-(defc= stat (stats (basic-arr-prefs prog)))
+(defc prog1 [1 2 3])
+(defc prog2 [4 5 6])
+(defc prog3 [7 8 9])
+(defc= stat (stats (basic-arr-prefs (vector prog1 prog2 prog3))))
+
+(defn evaluate []
+  (reset! prog1 (reader/read-string (str "[" (val-id "prog1") "]")))
+  (reset! prog2 (reader/read-string (str "[" (val-id "prog2") "]")))
+  (reset! prog3 (reader/read-string (str "[" (val-id "prog3") "]")))
+)
 
 (html
   (head
     (link :href "css/bootstrap.css" :rel "stylesheet"))
   (body
     (h1 "Tic-tac-toe Evaluator")
-    (form
-      (div :class "form-group"
-        (label :for "prog" "Tic-tac-toe program")
-        (input 
-         :id "prog"
-         :type "text"
-         :value "[[1 2 3][4 5 6][7 8 9]]"
-         :class "form-control"
-         :on-change #(reset! prog (reader/read-string (val-id "prog"))))))
-    (h2 "As first player")
-    (p (text "win: ~{(get-in stat [:as-first :win])}"))
-    (p (text "lose: ~{(get-in stat [:as-first :lose])}"))
-    (p (text "draw: ~{(get-in stat [:as-first :draw])}"))
-    (h2 "As second player")
-    (p (text "win: ~{(get-in stat [:as-second :win])}"))
-    (p (text "lose: ~{(get-in stat [:as-second :lose])}"))
-    (p (text "draw: ~{(get-in stat [:as-second :draw])}"))
+    (div :class "container"
+      (div :class "row"
+        (div :class "col-md-3" 
+            (form
+              (div :class "form-group" 
+                (h2 "Input your AI")
+                (input 
+                 :id "prog1"
+                 :type "text"
+                 :value "1 2 3"
+                 :class "form-control input-lg")
+                (input 
+                 :id "prog2"
+                 :size "6"
+                 :type "text"
+                 :value "4 5 6"
+                 :class "form-control input-lg")
+                (input 
+                 :id "prog3"
+                 :size "6"
+                 :type "text"
+                 :value "7 8 9"
+                 :class "form-control input-lg")
+                (button :on-click evaluate "Evaluate"))))
+        (div :class "col-md-3"
+            (h2 "As first player")
+            (p (text "win: ~{(get-in stat [:as-first :win])}"))
+            (p (text "lose: ~{(get-in stat [:as-first :lose])}"))
+            (p (text "draw: ~{(get-in stat [:as-first :draw])}"))
+            (h2 "As second player")
+            (p (text "win: ~{(get-in stat [:as-second :win])}"))
+            (p (text "lose: ~{(get-in stat [:as-second :lose])}"))
+            (p (text "draw: ~{(get-in stat [:as-second :draw])}")))))
   ))
 
 
