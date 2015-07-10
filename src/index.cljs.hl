@@ -191,11 +191,15 @@
   (body
     (div :class "container"
       (div :class "row"
-        (h1 "Tic-tac-toe Evaluator")
-        (div :class "col-md-3" 
+        (h1 "Tic-Tac-Toe AI Evaluator")
+        (div :class "col-md-6"
             (form
               (div :class "form-group" 
-                (h2 "Input your AI")
+                (h2 "Follow each of the rules in order, use the first one that applies.")
+                (ol
+                  (li "If I have two in a line, move to win!")
+                  (li "If opponent has two in a line, move to block.")
+                  (li "Else put in the first empty square, according to the following priority:"))
                 (input 
                  :id "prog1"
                  :type "text"
@@ -224,5 +228,3 @@
             (p (text "lose: ~{(get-in stat [:as-second :lose])}"))
             (p (text "draw: ~{(get-in stat [:as-second :draw])}")))))
   ))
-
-
