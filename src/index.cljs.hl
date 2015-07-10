@@ -179,9 +179,10 @@
 (defc= stat (stats (basic-arr-prefs (vector prog1 prog2 prog3))))
 
 (defn evaluate []
-  (reset! prog1 (reader/read-string (str "[" (val-id "prog1") "]")))
-  (reset! prog2 (reader/read-string (str "[" (val-id "prog2") "]")))
-  (reset! prog3 (reader/read-string (str "[" (val-id "prog3") "]")))
+  (dosync
+    (reset! prog1 (reader/read-string (str "[" (val-id "prog1") "]")))
+    (reset! prog2 (reader/read-string (str "[" (val-id "prog2") "]")))
+    (reset! prog3 (reader/read-string (str "[" (val-id "prog3") "]"))))
 )
 
 (html
