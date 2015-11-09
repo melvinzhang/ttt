@@ -3,21 +3,25 @@
   (:require [cljs.reader :as reader]
             [tic-tac-toe :as ttt]))
 
-(defn switch-color [c]
-  (if (= c "blue") "red" "blue"))
-
 (defc prog1 [1 2 3])
 (defc prog2 [4 5 6])
 (defc prog3 [7 8 9])
-(defc color "blue")
+(defc fp-text "As first player")
+(defc sp-text "As second player")
 (defc= stat (ttt/stats (ttt/basic-arr-prefs (vector prog1 prog2 prog3))))
 
-(defn evaluate []
+(defn update-stats []
   (dosync
     (reset! prog1 (reader/read-string (str "[" (val-id "prog1") "]")))
     (reset! prog2 (reader/read-string (str "[" (val-id "prog2") "]")))
-    (reset! prog3 (reader/read-string (str "[" (val-id "prog3") "]"))))
-    (swap! color switch-color))
+    (reset! prog3 (reader/read-string (str "[" (val-id "prog3") "]")))
+    (reset! fp-text "As first player")
+    (reset! sp-text "As second player")))
+
+(defn evaluate []
+  (reset! fp-text "Please wait...")
+  (reset! sp-text "Please wait...")
+  (.setTimeout js/window update-stats 100))
 
 (html
   (head
@@ -54,11 +58,11 @@
                  :class "form-control input-lg")
                 (button :on-click evaluate "Evaluate"))))
         (div :class "col-md-6"
-            (h2 :style (cell= (str "color: " color)) "As first player")
+            (h2 (text "~{fp-text}"))
             (p (text "win: ~{(get-in stat [:as-first :win])}"))
             (p (text "lose: ~{(get-in stat [:as-first :lose])}"))
             (p (text "draw: ~{(get-in stat [:as-first :draw])}"))
-            (h2 :style (cell= (str "color: " color)) "As second player")
+            (h2 (text "~{sp-text}"))
             (p (text "win: ~{(get-in stat [:as-second :win])}"))
             (p (text "lose: ~{(get-in stat [:as-second :lose])}"))
             (p (text "draw: ~{(get-in stat [:as-second :draw])}")))))
