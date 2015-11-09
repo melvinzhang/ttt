@@ -17,7 +17,7 @@
   '[tailrecursion.hoplon.boot    :refer :all]
   '[tailrecursion.boot.task.ring :refer [dev-server]])
 
-(deftask development
+(deftask dev
   "Build tic-tac-toe for development."
   []
   (comp (watch) (hoplon {:pretty-print true :prerender false}) (dev-server)))
@@ -29,7 +29,7 @@
                          :prerender false
                          :source-map true}) (dev-server)))
 
-(deftask production
+(deftask prod
   "Build tic-tac-toe for production."
   []
   (hoplon {:optimizations :advanced}))
