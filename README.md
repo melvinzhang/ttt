@@ -1,6 +1,6 @@
 # tic-tac-toe
 
-A Hoplon project designed to...well, that part is up to you.
+A web interface for https://github.com/melvinzhang/rule-based-ttt
 
 ## Dependencies
 
@@ -13,7 +13,7 @@ A Hoplon project designed to...well, that part is up to you.
 1. Start the auto-compiler. In a terminal:
 
     ```bash
-    $ boot development
+    $ boot dev
     ```
 
 2. Go to [http://localhost:8000][3] in your browser. You should see "Hello, World!".
@@ -22,7 +22,7 @@ A Hoplon project designed to...well, that part is up to you.
 
 ## License
 
-Copyright © 2015, **Your Name Goes Here**
+Copyright © 2015, Melvin Zhang
 
 [1]: https://github.com/tailrecursion/boot
 [2]: https://github.com/technomancy/leiningen
