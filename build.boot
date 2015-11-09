@@ -1,35 +1,35 @@
-#!/usr/bin/env boot
-
-#tailrecursion.boot.core/version "2.5.1"
-
 (set-env!
-  :project      'tic-tac-toe
-  :version      "0.1.0-SNAPSHOT"
-  :dependencies '[[tailrecursion/boot.task   "2.2.4"]
-                  [tailrecursion/hoplon      "5.10.25"]]
-  :out-path     "resources/public"
-  :src-paths    #{"src"})
-
-;; Static resources (css, images, etc.):
-(add-sync! (get-env :out-path) #{"assets"})
+  :dependencies '[[adzerk/boot-cljs          "1.7.170-3"]
+                  [adzerk/boot-reload        "0.4.2"]
+                  [hoplon/boot-hoplon        "0.1.10"]
+                  [hoplon/hoplon             "6.0.0-alpha11"]
+                  [org.clojure/clojure       "1.7.0"]
+                  [org.clojure/clojurescript "1.7.170"]
+                  [tailrecursion/boot-jetty  "0.1.0"]
+                  [prismatic/dommy           "1.1.0"]]
+  :source-paths #{"src"}
+  :asset-paths  #{"assets"})
 
 (require
-  '[tailrecursion.hoplon.boot    :refer :all]
-  '[tailrecursion.boot.task.ring :refer [dev-server]])
+  '[adzerk.boot-cljs         :refer [cljs]]
+  '[adzerk.boot-reload       :refer [reload]]
+  '[hoplon.boot-hoplon       :refer [hoplon prerender]]
+  '[tailrecursion.boot-jetty :refer [serve]])
 
 (deftask dev
-  "Build tic-tac-toe for development."
+  "Build ttt2 for local development."
   []
-  (comp (watch) (hoplon {:pretty-print true :prerender false}) (dev-server)))
-
-(deftask dev-debug
-  "Build tic-tac-toe for development with source maps."
-  []
-  (comp (watch) (hoplon {:pretty-print true
-                         :prerender false
-                         :source-map true}) (dev-server)))
+  (comp
+    (watch)
+    (hoplon)
+    (reload)
+    (cljs)
+    (serve :port 8000)))
 
 (deftask prod
-  "Build tic-tac-toe for production."
+  "Build ttt2 for production deployment."
   []
-  (hoplon {:optimizations :advanced}))
+  (comp
+    (hoplon)
+    (cljs :optimizations :advanced)
+    (prerender)))

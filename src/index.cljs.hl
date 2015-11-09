@@ -1,7 +1,8 @@
 (page "index.html"
   (:refer-clojure :exclude [int])
   (:require [cljs.reader :as reader]
-            [tic-tac-toe :as ttt]))
+            [tic-tac-toe :as ttt]
+            [dommy.core :refer-macros [sel1] :refer [value]]))
 
 (defc prog1 [])
 (defc prog2 [])
@@ -20,9 +21,9 @@
 
 (defn update-stats []
   (dosync
-    (reset! prog1 (reader/read-string (str "[" (val-id "prog1") "]")))
-    (reset! prog2 (reader/read-string (str "[" (val-id "prog2") "]")))
-    (reset! prog3 (reader/read-string (str "[" (val-id "prog3") "]")))
+    (reset! prog1 (reader/read-string (str "[" (value (sel1 :#prog1)) "]")))
+    (reset! prog2 (reader/read-string (str "[" (value (sel1 :#prog2)) "]")))
+    (reset! prog3 (reader/read-string (str "[" (value (sel1 :#prog3)) "]")))
     (reset! fp-text "As first player")
     (reset! sp-text "As second player")))
 
@@ -49,7 +50,7 @@
               (input-field "prog1" "1 2 3")
               (input-field "prog2" "4 5 6")
               (input-field "prog3" "7 8 9")
-              (button :on-click evaluate "Evaluate"))))
+              (button :click evaluate "Evaluate"))))
         (div :class "col-md-6"
           (h2 (text "~{fp-text}"))
           (p (text "win: ~{(get-in stat [:as-first :win])}"))
