@@ -1,7 +1,7 @@
 (page "index.html"
   (:refer-clojure :exclude [int])
   (:require [cljs.reader :as reader]
-            [tic-tac-toe :as ttt]
+            [ttt.core :as ttt]
             [dommy.core :refer-macros [sel1] :refer [value]]))
 
 (defc prog1 [])

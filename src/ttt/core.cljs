@@ -1,4 +1,4 @@
-(ns tic-tac-toe)
+(ns ttt.core)
 
 (defn other [s]
   (if (= s 'X) 'O 'X))
