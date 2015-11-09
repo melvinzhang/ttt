@@ -3,12 +3,20 @@
   (:require [cljs.reader :as reader]
             [tic-tac-toe :as ttt]))
 
-(defc prog1 [1 2 3])
-(defc prog2 [4 5 6])
-(defc prog3 [7 8 9])
+(defc prog1 [])
+(defc prog2 [])
+(defc prog3 [])
 (defc fp-text "As first player")
 (defc sp-text "As second player")
 (defc= stat (ttt/stats (ttt/basic-arr-prefs (vector prog1 prog2 prog3))))
+                
+(defn input-field [id val]
+  (input 
+   :id id
+   :size "6"
+   :type "text"
+   :value val
+   :class "form-control input-lg"))
 
 (defn update-stats []
   (dosync
@@ -31,39 +39,23 @@
       (div :class "row"
         (h1 "Tic-Tac-Toe AI Evaluator")
         (div :class "col-md-6"
-            (form
-              (div :class "form-group" 
-                (h2 "Follow each of the rules in order, use the first one that applies.")
-                (ol
-                  (li "If I have two in a line, move to win!")
-                  (li "If opponent has two in a line, move to block.")
-                  (li "Else put in the first empty square, according to the following priority:"))
-                (input 
-                 :id "prog1"
-                 :size "6"
-                 :type "text"
-                 :value "1 2 3"
-                 :class "form-control input-lg")
-                (input 
-                 :id "prog2"
-                 :size "6"
-                 :type "text"
-                 :value "4 5 6"
-                 :class "form-control input-lg")
-                (input 
-                 :id "prog3"
-                 :size "6"
-                 :type "text"
-                 :value "7 8 9"
-                 :class "form-control input-lg")
-                (button :on-click evaluate "Evaluate"))))
+          (form
+            (div :class "form-group" 
+              (h2 "Follow each of the rules in order, use the first one that applies.")
+              (ol
+                (li "If I have two in a line, move to win!")
+                (li "If opponent has two in a line, move to block.")
+                (li "Else put in the first empty square, according to the following priority:"))
+              (input-field "prog1" "1 2 3")
+              (input-field "prog2" "4 5 6")
+              (input-field "prog3" "7 8 9")
+              (button :on-click evaluate "Evaluate"))))
         (div :class "col-md-6"
-            (h2 (text "~{fp-text}"))
-            (p (text "win: ~{(get-in stat [:as-first :win])}"))
-            (p (text "lose: ~{(get-in stat [:as-first :lose])}"))
-            (p (text "draw: ~{(get-in stat [:as-first :draw])}"))
-            (h2 (text "~{sp-text}"))
-            (p (text "win: ~{(get-in stat [:as-second :win])}"))
-            (p (text "lose: ~{(get-in stat [:as-second :lose])}"))
-            (p (text "draw: ~{(get-in stat [:as-second :draw])}")))))
-  ))
+          (h2 (text "~{fp-text}"))
+          (p (text "win: ~{(get-in stat [:as-first :win])}"))
+          (p (text "lose: ~{(get-in stat [:as-first :lose])}"))
+          (p (text "draw: ~{(get-in stat [:as-first :draw])}"))
+          (h2 (text "~{sp-text}"))
+          (p (text "win: ~{(get-in stat [:as-second :win])}"))
+          (p (text "lose: ~{(get-in stat [:as-second :lose])}"))
+          (p (text "draw: ~{(get-in stat [:as-second :draw])}")))))))
