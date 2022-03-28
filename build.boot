@@ -5,7 +5,7 @@
                   [hoplon/hoplon             "RELEASE"]
                   [org.clojure/clojure       "RELEASE"]
                   [org.clojure/clojurescript "RELEASE"]
-                  [tailrecursion/boot-jetty  "RELEASE"]
+                  [pandeiro/boot-http        "RELEASE"]
                   [prismatic/dommy           "RELEASE"]]
   :source-paths #{"src"}
   :asset-paths  #{"assets"})
@@ -14,17 +14,17 @@
   '[adzerk.boot-cljs         :refer [cljs]]
   '[adzerk.boot-reload       :refer [reload]]
   '[hoplon.boot-hoplon       :refer [hoplon prerender]]
-  '[tailrecursion.boot-jetty :refer [serve]])
+  '[pandeiro.boot-http       :refer [serve]])
 
 (deftask dev
   "Build ttt2 for local development."
   []
   (comp
+    (serve)
     (watch)
-    (hoplon)
     (reload)
-    (cljs)
-    (serve :port 8000)))
+    (hoplon)
+    (cljs)))
 
 (deftask prod
   "Build ttt2 for production deployment."
