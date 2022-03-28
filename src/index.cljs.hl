@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [int])
   (:require [cljs.reader :as reader]
             [ttt.core :as ttt]
-            [hoplon.core :as h :refer [div ul li html head title body h1 span p button text input link form h2 ol]]
+            [hoplon.core :as h :refer [div ol li html head title body h1 h2 p button text input link]]
             [dommy.core :refer-macros [sel1] :refer [value]]))
 
 (defc prog1 [])
@@ -10,7 +10,7 @@
 (defc prog3 [])
 (defc fp-text "As first player")
 (defc sp-text "As second player")
-(defc= stat (ttt/stats (ttt/basic-arr-prefs (vector prog1 prog2 prog3))))
+(defc stat {:as-first {:win 0, :lose 0, :draw 0} :as-second {:win 0, :lose 0, :draw 0}})
                 
 (defn input-field [id val]
   (input 
@@ -20,21 +20,35 @@
    :value val
    :class "form-control input-lg"))
 
+(defn read-row [iid]
+  (reader/read-string (str "[" (value (sel1 iid)) "]")))
+
 (defn update-stats []
   (dosync
-    (reset! prog1 (reader/read-string (str "[" (value (sel1 :#prog1)) "]")))
-    (reset! prog2 (reader/read-string (str "[" (value (sel1 :#prog2)) "]")))
-    (reset! prog3 (reader/read-string (str "[" (value (sel1 :#prog3)) "]")))
+    (reset! prog1 (read-row :#prog1))
+    (reset! prog2 (read-row :#prog2))
+    (reset! prog3 (read-row :#prog3))
     (reset! fp-text "As first player")
-    (reset! sp-text "As second player")))
+    (reset! sp-text "As second player")
+    (reset! stat (ttt/stats (ttt/basic-arr-prefs (vector prog1 prog2 prog3))))))
+
+(defn validate-input []
+  (= (sort (concat (read-row :#prog1) (read-row :#prog2) (read-row :#prog3))) [1 2 3 4 5 6 7 8 9]))
 
 (defn evaluate []
-  (reset! fp-text "Please wait...")
-  (reset! sp-text "Please wait...")
-  (.setTimeout js/window update-stats 100))
+  (dosync
+    (reset! fp-text "Please wait...")
+    (reset! sp-text "Please wait..."))
+  (if (validate-input)
+    (.setTimeout js/window update-stats 300)
+    (dosync
+      (reset! fp-text "Error in input")
+      (reset! sp-text "Error in input")
+      (reset! stat {:as-first {:win 0, :lose 0, :draw 0} :as-second {:win 0, :lose 0, :draw 0}}))))
 
 (html
   (head
+    (title "Tic-Tac-Toe AI Evaluator")
     (link :href "css/bootstrap.css" :rel "stylesheet"))
   (body
     (div :class "container"
