@@ -1,12 +1,12 @@
 (set-env!
-  :dependencies '[[adzerk/boot-cljs          "1.7.170-3"]
-                  [adzerk/boot-reload        "0.4.2"]
-                  [hoplon/boot-hoplon        "0.1.10"]
-                  [hoplon/hoplon             "6.0.0-alpha11"]
-                  [org.clojure/clojure       "1.7.0"]
-                  [org.clojure/clojurescript "1.7.170"]
-                  [tailrecursion/boot-jetty  "0.1.0"]
-                  [prismatic/dommy           "1.1.0"]]
+  :dependencies '[[adzerk/boot-cljs          "RELEASE"]
+                  [adzerk/boot-reload        "RELEASE"]
+                  [hoplon/boot-hoplon        "RELEASE"]
+                  [hoplon/hoplon             "RELEASE"]
+                  [org.clojure/clojure       "RELEASE"]
+                  [org.clojure/clojurescript "RELEASE"]
+                  [tailrecursion/boot-jetty  "RELEASE"]
+                  [prismatic/dommy           "RELEASE"]]
   :source-paths #{"src"}
   :asset-paths  #{"assets"})
 
@@ -32,4 +32,5 @@
   (comp
     (hoplon)
     (cljs :optimizations :advanced)
-    (prerender)))
+    (prerender)
+    (target)))

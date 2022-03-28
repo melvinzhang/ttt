@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [int])
   (:require [cljs.reader :as reader]
             [ttt.core :as ttt]
+            [hoplon.core :as h :refer [div ul li html head title body h1 span p button text input link form h2 ol]]
             [dommy.core :refer-macros [sel1] :refer [value]]))
 
 (defc prog1 [])
@@ -40,17 +41,16 @@
       (div :class "row"
         (h1 "Tic-Tac-Toe AI Evaluator")
         (div :class "col-md-6"
-          (form
-            (div :class "form-group" 
-              (h2 "Follow each of the rules in order, use the first one that applies.")
-              (ol
-                (li "If I have two in a line, move to win!")
-                (li "If opponent has two in a line, move to block.")
-                (li "Else put in the first empty square, according to the following priority:"))
-              (input-field "prog1" "1 2 3")
-              (input-field "prog2" "4 5 6")
-              (input-field "prog3" "7 8 9")
-              (button :click evaluate "Evaluate"))))
+          (div :class "form-group"
+            (h2 "Follow each of the rules in order, use the first one that applies.")
+            (ol
+              (li "If I have two in a line, move to win!")
+              (li "If opponent has two in a line, move to block.")
+              (li "Else put in the first empty square, according to the following priority:"))
+            (input-field "prog1" "1 2 3")
+            (input-field "prog2" "4 5 6")
+            (input-field "prog3" "7 8 9")
+            (button :click evaluate "Evaluate")))
         (div :class "col-md-6"
           (h2 (text "~{fp-text}"))
           (p (text "win: ~{(get-in stat [:as-first :win])}"))
