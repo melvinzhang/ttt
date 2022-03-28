@@ -30,7 +30,9 @@
     (reset! stat (ttt/stats (ttt/basic-arr-prefs (read-all))))))
 
 (defn validate-input []
-  (= (sort (flatten (read-all))) [1 2 3 4 5 6 7 8 9]))
+  (try
+    (= (sort (flatten (read-all))) [1 2 3 4 5 6 7 8 9])
+    (catch js/Error e false)))
 
 (defn evaluate []
   (dosync
@@ -41,7 +43,7 @@
     (dosync
       (reset! fp-text "Error in input")
       (reset! sp-text "Error in input")
-      (reset! stat {:as-first {:win 0, :lose 0, :draw 0} :as-second {:win 0, :lose 0, :draw 0}}))))
+      (reset! stat {:as-first {:win -1, :lose -1, :draw -1} :as-second {:win -1, :lose -1, :draw -1}}))))
 
 (html
   (head
