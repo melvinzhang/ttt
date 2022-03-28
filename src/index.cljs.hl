@@ -5,9 +5,6 @@
             [hoplon.core :as h :refer [div ol li html head title body h1 h2 p button text input link]]
             [dommy.core :refer-macros [sel1] :refer [value]]))
 
-(defc prog1 [])
-(defc prog2 [])
-(defc prog3 [])
 (defc fp-text "As first player")
 (defc sp-text "As second player")
 (defc stat {:as-first {:win 0, :lose 0, :draw 0} :as-second {:win 0, :lose 0, :draw 0}})
@@ -23,17 +20,17 @@
 (defn read-row [iid]
   (reader/read-string (str "[" (value (sel1 iid)) "]")))
 
+(defn read-all []
+  (vector (read-row :#prog1) (read-row :#prog2) (read-row :#prog3)))
+
 (defn update-stats []
   (dosync
-    (reset! prog1 (read-row :#prog1))
-    (reset! prog2 (read-row :#prog2))
-    (reset! prog3 (read-row :#prog3))
     (reset! fp-text "As first player")
     (reset! sp-text "As second player")
-    (reset! stat (ttt/stats (ttt/basic-arr-prefs (vector prog1 prog2 prog3))))))
+    (reset! stat (ttt/stats (ttt/basic-arr-prefs (read-all))))))
 
 (defn validate-input []
-  (= (sort (concat (read-row :#prog1) (read-row :#prog2) (read-row :#prog3))) [1 2 3 4 5 6 7 8 9]))
+  (= (sort (flatten (read-all))) [1 2 3 4 5 6 7 8 9]))
 
 (defn evaluate []
   (dosync
