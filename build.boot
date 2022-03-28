@@ -7,8 +7,8 @@
                   [org.clojure/clojurescript "RELEASE"]
                   [pandeiro/boot-http        "RELEASE"]
                   [prismatic/dommy           "RELEASE"]]
-  :source-paths #{"src"}
-  :asset-paths  #{"assets"})
+  :source-paths   #{"src"}
+  :resource-paths #{"assets"})
 
 (require
   '[adzerk.boot-cljs         :refer [cljs]]
